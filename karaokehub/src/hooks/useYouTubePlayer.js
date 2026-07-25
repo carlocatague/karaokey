@@ -38,18 +38,25 @@ export function useYouTubePlayer(containerId, videoId, { onEnded, loop } = {}) {
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    let cancelled = false;
-    if (!videoId) return;
+  let cancelled = false;
 
-    loadYouTubeIframeAPI().then((YT) => {
-      if (cancelled) return;
+  if (!videoId) {
+    // Nothing should be playing right now. If a player already exists on
+    // this screen, stop it -- this runs on every connected client when the
+    // queue updates, not just the browser that ended the song.
+    playerRef.current?.pauseVideo?.();
+    return;
+  }
 
-      if (playerRef.current) {
-        playerRef.current.loadVideoById(videoId);
-        return;
-      }
+  loadYouTubeIframeAPI().then((YT) => {
+    if (cancelled) return;
 
-      playerRef.current = new YT.Player(containerId, {
+    if (playerRef.current) {
+      playerRef.current.loadVideoById(videoId);
+      return;
+    }
+
+    playerRef.current = new YT.Player(containerId, {
         videoId,
         playerVars: { autoplay: 1, rel: 0, modestbranding: 1 },
         events: {
