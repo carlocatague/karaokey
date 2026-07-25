@@ -231,14 +231,15 @@ export default function RoomDetail() {
     });
   }
 
-  async function finishPerformance(item, next) {
-    if (room?.scoring_enabled) {
-      clearScoreTimers();
-      await runScoreReveal();
-    }
-    await markDone(item);
-    if (next) await markPlaying(next);
+async function finishPerformance(item, next) {
+  player.pause();
+  if (room?.scoring_enabled) {
+    clearScoreTimers();
+    await runScoreReveal();
   }
+  await markDone(item);
+  if (next) await markPlaying(next);
+}
 
   useEffect(() => clearScoreTimers, []);
 
