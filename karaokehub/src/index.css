@@ -899,6 +899,7 @@ body:has(.tv-toggle.on) [tabindex]:focus-visible {
   border-radius: 999px;
   color: var(--text);
   margin-bottom: 24px;
+  font-size: 16px;
 }
 
 /* ---------- Song grid / cards ---------- */
