@@ -75,10 +75,15 @@ export default function Home() {
     const code = generateRoomCode();
 
     const { data: room, error: roomError } = await supabase
-      .from('rooms')
-      .insert({ name: `${hostName.trim()}'s Karaoke Room`, code, host_session_id: sessionId })
-      .select()
-      .single();
+  .from('rooms')
+  .insert({
+    name: `${hostName.trim()}'s Karaoke Room`,
+    code,
+    host_session_id: sessionId,
+    guest_controls: true,
+  })
+  .select()
+  .single();
 
     if (roomError) {
       setHostBusy(false);
