@@ -11,6 +11,7 @@ import { useTvNavigation } from '../hooks/useTvNavigation';
 import SearchResultCard from '../components/SearchResultCard';
 import TrendingRow from '../components/TrendingRow';
 import TVSupportModal from '../components/TVSupportModal';
+import GuestMobileStage from '../components/GuestMobileStage';
 
 export default function RoomDetail() {
   const { id } = useParams();
@@ -40,6 +41,16 @@ export default function RoomDetail() {
   const hideTimerRef = useRef(null);
   const [scoreOverlay, setScoreOverlay] = useState(null); // { animating, value }
   const scoreTimersRef = useRef([]);
+  const [isMobile, setIsMobile] = useState(
+  () => typeof window !== 'undefined' && window.matchMedia('(max-width: 900px)').matches
+);
+
+useEffect(() => {
+  const mq = window.matchMedia('(max-width: 900px)');
+  const handler = (e) => setIsMobile(e.matches);
+  mq.addEventListener('change', handler);
+  return () => mq.removeEventListener('change', handler);
+}, []);
 
   useTvNavigation(tvModeEnabled);
 
@@ -339,6 +350,8 @@ async function finishPerformance(item, next) {
   const nextUp = queue.find((i) => i.status === 'waiting');
   const upcoming = queue.filter((i) => i.status !== 'done');
   const joinUrl = room ? `${window.location.origin}/?code=${room.code}` : '';
+  const hostMember = members.find((m) => m.session_id === room?.host_session_id);
+  const hostName = hostMember?.display_name ?? 'the host';
 
   const player = useYouTubePlayer('yt-stage-player', playingItem?.video_id, {
     loop: loopEnabled,
@@ -391,6 +404,27 @@ async function finishPerformance(item, next) {
     );
   }
 
+  if (!isHost && isMobile) {
+  return (
+    <GuestMobileStage
+      room={room}
+      playingItem={playingItem}
+      queue={queue}
+      canControl={canControl}
+      hostName={hostName}
+      sessionId={sessionId}
+      query={query}
+      setQuery={setQuery}
+      results={results}
+      searching={searching}
+      searchError={searchError}
+      trending={trending}
+      onAdd={handleAddToQueue}
+      onExit={() => navigate('/')}
+    />
+  );
+}
+  
   return (
     <div className="stage-app">
       <div className="stage-main">
