@@ -226,15 +226,27 @@ useEffect(() => {
     await supabase.from('queue_items').update({ status: 'done' }).eq('id', item.id);
   }
 
-  async function handleRemoveReservation(item) {
-  // Guarded by session_id so a guest can only ever delete their own
-  // reservation, never someone else's -- independent of guest_controls.
-  await supabase
-    .from('queue_items')
-    .delete()
-    .eq('id', item.id)
-    .eq('session_id', sessionId);
-}
+    async function handleRemoveReservation(item) {
+    // Update the screen immediately rather than waiting on the realtime
+    // round-trip -- that keeps working even if this tab doesn't get its
+    // own delete event echoed back quickly.
+    setQueue((prev) => prev.filter((q) => q.id !== item.id));
+
+    // Guarded by session_id so a guest can only ever delete their own
+    // reservation, never someone else's -- independent of guest_controls.
+    const { error } = await supabase
+      .from('queue_items')
+      .delete()
+      .eq('id', item.id)
+      .eq('session_id', sessionId);
+
+    if (error) {
+      // The delete didn't actually go through server-side -- put the row
+      // back rather than leaving the screen showing something that's
+      // still really in the queue.
+      loadQueue();
+    }
+  }
 
   function clearScoreTimers() {
     scoreTimersRef.current.forEach(clearTimeout);
