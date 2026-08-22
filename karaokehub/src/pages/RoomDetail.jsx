@@ -447,8 +447,8 @@ useEffect(() => {
         onAdd={handleAddToQueue}
         onExit={() => navigate('/')}
         isPlayerPlaying={player.isPlaying}
-        onPlay={player.play}
-        onPause={player.pause}
+        onPlay={() => setRoomPaused(false)}
+        onPause={() => setRoomPaused(true)}
         onStop={() => finishPerformance(playingItem, null)}
         onSkip={() => finishPerformance(playingItem, nextUp)}
         onRemoveReservation={handleRemoveReservation}
