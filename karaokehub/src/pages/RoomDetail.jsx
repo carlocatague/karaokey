@@ -539,9 +539,9 @@ useEffect(() => {
                 <div className="transport-controls">
                   <div className="transport-left">
                     <button className="transport-btn" onClick={() => player.seekRelative(-10)} title="Back 10s">-10</button>
-                    <button className="transport-btn primary" onClick={player.isPlaying ? player.pause : player.play} title={player.isPlaying ? 'Pause' : 'Play'}>
-                      {player.isPlaying ? '⏸' : '▶'}
-                    </button>
+                    <button className="transport-btn primary" onClick={() => setRoomPaused(player.isPlaying)} title={player.isPlaying ? 'Pause' : 'Play'}>
+  {player.isPlaying ? '⏸' : '▶'}
+</button>
                     {canControl && (
                       <button
                         className="transport-btn"
