@@ -163,7 +163,7 @@ useEffect(() => {
     setTrending(data ?? []);
   }
 
-  async function handleAddToQueue(result) {
+   async function handleAddToQueue(result) {
     if (!isHost && room?.queue_limit != null) {
       const mine = queue.filter(
         (i) => i.session_id === sessionId && i.status !== 'done'
@@ -176,15 +176,27 @@ useEffect(() => {
       }
     }
     const position = queue.length;
-    await supabase.from('queue_items').insert({
-      room_id: id,
-      video_id: result.videoId,
-      title: result.title,
-      thumbnail_url: result.thumbnail,
-      singer_name: displayName,
-      session_id: sessionId,
-      position,
-    });
+    const { data: inserted } = await supabase
+      .from('queue_items')
+      .insert({
+        room_id: id,
+        video_id: result.videoId,
+        title: result.title,
+        thumbnail_url: result.thumbnail,
+        singer_name: displayName,
+        session_id: sessionId,
+        position,
+      })
+      .select()
+      .single();
+
+    // If nothing's on stage right now, auto-start whatever was just added --
+    // works the same for a guest as it does for the host, so the first song
+    // added to an empty queue always kicks things off on its own.
+    if (inserted && !playingItem) {
+      await markPlaying(inserted);
+    }
+
     setQuery('');
     setResults([]);
     setTab('queue');
