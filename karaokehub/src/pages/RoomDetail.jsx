@@ -416,22 +416,28 @@ async function finishPerformance(item, next) {
 
   if (!isHost && isMobile) {
   return (
-    <GuestMobileStage
-      room={room}
-      playingItem={playingItem}
-      queue={queue}
-      canControl={canControl}
-      hostName={hostName}
-      sessionId={sessionId}
-      query={query}
-      setQuery={setQuery}
-      results={results}
-      searching={searching}
-      searchError={searchError}
-      trending={trending}
-      onAdd={handleAddToQueue}
-      onExit={() => navigate('/')}
-    />
+          <GuestMobileStage
+        room={room}
+        playingItem={playingItem}
+        queue={queue}
+        canControl={canControl}
+        hostName={hostName}
+        sessionId={sessionId}
+        query={query}
+        setQuery={setQuery}
+        results={results}
+        searching={searching}
+        searchError={searchError}
+        trending={trending}
+        onAdd={handleAddToQueue}
+        onExit={() => navigate('/')}
+        isPlayerPlaying={player.isPlaying}
+        onPlay={player.play}
+        onPause={player.pause}
+        onStop={() => finishPerformance(playingItem, null)}
+        onSkip={() => finishPerformance(playingItem, nextUp)}
+        onRemoveReservation={handleRemoveReservation}
+      />
   );
 }
   
