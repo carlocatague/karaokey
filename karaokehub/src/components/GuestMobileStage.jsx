@@ -124,7 +124,27 @@ export default function GuestMobileStage({
                     <p><Mic size={12} /> {playingItem.singer_name}</p>
                   </div>
                 </div>
-                {!canControl && (
+                                {showControls ? (
+                  <div className="gm-controls-panel">
+                    <p className="gm-controls-label">
+                      {isMySong ? 'Your song — playback controls' : 'Playback controls'}
+                    </p>
+                    <div className="gm-controls-row">
+                      <button className="gm-ctrl-btn play" onClick={onPlay} disabled={isPlayerPlaying}>
+                        <Play size={16} /> Play
+                      </button>
+                      <button className="gm-ctrl-btn pause" onClick={onPause} disabled={!isPlayerPlaying}>
+                        <Pause size={16} /> Pause
+                      </button>
+                      <button className="gm-ctrl-btn stop" onClick={onStop}>
+                        <Square size={16} /> Stop
+                      </button>
+                      <button className="gm-ctrl-btn skip" onClick={onSkip}>
+                        <SkipForward size={16} /> Skip
+                      </button>
+                    </div>
+                  </div>
+                ) : (
                   <div className="gm-lock-notice">
                     <Lock size={13} />
                     Only <strong>{hostName}</strong> can control this song.
