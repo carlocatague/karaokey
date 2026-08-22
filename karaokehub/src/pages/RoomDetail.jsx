@@ -199,7 +199,8 @@ useEffect(() => {
   }
 
   async function markPlaying(item) {
-    await supabase.from('queue_items').update({ status: 'playing' }).eq('id', item.id);
+  await supabase.from('queue_items').update({ status: 'playing' }).eq('id', item.id);
+  updateRoomSetting({ is_paused: false });
     supabase
       .rpc('increment_song_play', {
         p_video_id: item.video_id,
