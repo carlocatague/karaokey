@@ -287,13 +287,22 @@ export default function GuestMobileStage({
             {mySongs.length === 0 ? (
               <p className="muted small">Songs you add will show up here.</p>
             ) : (
-              mySongs.map((item) => (
+                            mySongs.map((item) => (
                 <div key={item.id} className="gm-simple-row">
                   <img src={item.thumbnail_url} alt="" />
                   <div>
                     <strong>{item.title}</strong>
                     <span className={`gm-status-tag status-${item.status}`}>{item.status}</span>
                   </div>
+                  {item.status === 'waiting' && (
+                    <button
+                      className="gm-delete-btn"
+                      onClick={() => onRemoveReservation(item)}
+                      title="Remove your reservation"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  )}
                 </div>
               ))
             )}
