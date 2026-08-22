@@ -65,6 +65,12 @@ export default function GuestMobileStage({
   trending,
   onAdd,
   onExit,
+  isPlayerPlaying,
+  onPlay,
+  onPause,
+  onStop,
+  onSkip,
+  onRemoveReservation,
 }) {
   const [navTab, setNavTab] = useState('search');
   const [resultsMode, setResultsMode] = useState('suggestions');
@@ -84,6 +90,8 @@ export default function GuestMobileStage({
   const history = queue.filter((i) => i.status === 'done');
   const mySongs = queue.filter((i) => i.session_id === sessionId);
   const favorites = getFavorites();
+  const isMySong = playingItem?.session_id === sessionId;
+  const showControls = isMySong || canControl;
 
   return (
     <div className="gm-app">
