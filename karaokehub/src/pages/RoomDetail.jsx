@@ -213,6 +213,16 @@ useEffect(() => {
     await supabase.from('queue_items').update({ status: 'done' }).eq('id', item.id);
   }
 
+  async function handleRemoveReservation(item) {
+  // Guarded by session_id so a guest can only ever delete their own
+  // reservation, never someone else's -- independent of guest_controls.
+  await supabase
+    .from('queue_items')
+    .delete()
+    .eq('id', item.id)
+    .eq('session_id', sessionId);
+}
+
   function clearScoreTimers() {
     scoreTimersRef.current.forEach(clearTimeout);
     scoreTimersRef.current.forEach(clearInterval);
