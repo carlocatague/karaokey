@@ -106,19 +106,37 @@ export function useYouTubePlayer(containerId, videoId, { onEnded, loop } = {}) {
     };
   }, []);
 
-  const play = useCallback(() => playerRef.current?.playVideo(), []);
-  const pause = useCallback(() => playerRef.current?.pauseVideo(), []);
-  const seekTo = useCallback((sec) => {
-    playerRef.current?.seekTo(sec, true);
-    setCurrentTime(sec);
-  }, []);
-  const seekRelative = useCallback((delta) => {
-    const t = playerRef.current?.getCurrentTime?.() ?? 0;
-    const next = Math.max(0, t + delta);
-    playerRef.current?.seekTo(next, true);
-    setCurrentTime(next);
-  }, []);
-  const setVolume = useCallback((v) => playerRef.current?.setVolume(v), []);
+  const play = useCallback(() => {
+  if (typeof playerRef.current?.playVideo === 'function') {
+    playerRef.current.playVideo();
+  }
+}, []);
+const pause = useCallback(() => {
+  if (typeof playerRef.current?.pauseVideo === 'function') {
+    playerRef.current.pauseVideo();
+  }
+}, []);
+const seekTo = useCallback((sec) => {
+  if (typeof playerRef.current?.seekTo === 'function') {
+    playerRef.current.seekTo(sec, true);
+  }
+  setCurrentTime(sec);
+}, []);
+const seekRelative = useCallback((delta) => {
+  const t = typeof playerRef.current?.getCurrentTime === 'function'
+    ? playerRef.current.getCurrentTime()
+    : 0;
+  const next = Math.max(0, t + delta);
+  if (typeof playerRef.current?.seekTo === 'function') {
+    playerRef.current.seekTo(next, true);
+  }
+  setCurrentTime(next);
+}, []);
+const setVolume = useCallback((v) => {
+  if (typeof playerRef.current?.setVolume === 'function') {
+    playerRef.current.setVolume(v);
+  }
+}, []);
 
   return {
     isReady,
