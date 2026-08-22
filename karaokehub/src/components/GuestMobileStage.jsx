@@ -10,6 +10,11 @@ import {
   Sparkles,
   TrendingUp,
   Plus,
+  Play,
+  Pause,
+  Square,
+  SkipForward,
+  Trash2,
 } from 'lucide-react';
 import { parseSongTitle } from '../lib/utils';
 import { toggleFavorite, isFavorited, getFavorites } from '../lib/favorites';
