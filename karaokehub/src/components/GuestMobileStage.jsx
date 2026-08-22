@@ -90,8 +90,11 @@ export default function GuestMobileStage({
   const history = queue.filter((i) => i.status === 'done');
   const mySongs = queue.filter((i) => i.session_id === sessionId);
   const favorites = getFavorites();
-  const isMySong = playingItem?.session_id === sessionId;
-  const showControls = isMySong || canControl;
+    const isMySong = playingItem?.session_id === sessionId;
+  // Only the person who reserved the song currently playing gets the
+  // playback panel -- the room-wide guest_controls setting no longer
+  // grants control over someone else's song, only the host can override.
+  const showControls = isMySong;
 
   return (
     <div className="gm-app">
