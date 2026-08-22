@@ -331,6 +331,20 @@ async function finishPerformance(item, next) {
     await supabase.from('rooms').update(patch).eq('id', id);
   }
 
+  function setRoomPaused(paused) {
+  updateRoomSetting({ is_paused: paused });
+}
+
+useEffect(() => {
+  if (!player.isReady) return;
+  if (room?.is_paused && player.isPlaying) {
+    player.pause();
+  } else if (!room?.is_paused && !player.isPlaying && playingItem) {
+    player.play();
+  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [room?.is_paused, player.isReady]);
+
   function toggleGuestControls() {
     updateRoomSetting({ guest_controls: !room?.guest_controls });
   }
