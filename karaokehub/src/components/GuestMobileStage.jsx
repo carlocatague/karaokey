@@ -226,7 +226,7 @@ export default function GuestMobileStage({
             {upcoming.length === 0 ? (
               <p className="muted small">The queue is empty.</p>
             ) : (
-              upcoming.map((item) => (
+                            upcoming.map((item) => (
                 <div key={item.id} className="gm-simple-row">
                   <img src={item.thumbnail_url} alt="" />
                   <div>
@@ -234,6 +234,15 @@ export default function GuestMobileStage({
                     <span>{item.singer_name}</span>
                   </div>
                   {item.status === 'playing' && <span className="badge-live">Live</span>}
+                  {item.session_id === sessionId && item.status !== 'playing' && (
+                    <button
+                      className="gm-delete-btn"
+                      onClick={() => onRemoveReservation(item)}
+                      title="Remove your reservation"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  )}
                 </div>
               ))
             )}
