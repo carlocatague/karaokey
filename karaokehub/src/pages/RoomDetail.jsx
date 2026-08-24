@@ -476,6 +476,7 @@ async function finishPerformance(item, next) {
         onStop={() => finishPerformance(playingItem, null)}
         onSkip={() => finishPerformance(playingItem, nextUp)}
         onRemoveReservation={handleRemoveReservation}
+        onReorder={reorderQueue}
       />
   );
 }
