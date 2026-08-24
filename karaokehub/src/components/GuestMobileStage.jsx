@@ -136,8 +136,7 @@ export default function GuestMobileStage({
     <div className="gm-app">
       <div className="gm-topbar">
         <div className="gm-brand">
-          <Mic size={16} />
-          <span>KARAOKEHUB</span>
+          <span>Kara<span className="brand-okey">Okey!</span></span>
         </div>
         <div className="gm-topbar-right">
           <span className="gm-room-pill">{room.code}</span>
