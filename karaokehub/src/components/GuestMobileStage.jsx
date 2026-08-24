@@ -179,9 +179,9 @@ export default function GuestMobileStage({
                     </div>
                   </div>
                 ) : (
-                  <div className="gm-lock-notice">
+                    <div className="gm-lock-notice">
                     <Lock size={13} />
-                    Only <strong>{hostName}</strong> can control this song.
+                    Only <strong>{playingItem.singer_name}</strong> can control this song.
                   </div>
                 )}
               </div>
