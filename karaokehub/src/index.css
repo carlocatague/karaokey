@@ -2344,14 +2344,10 @@ body:has(.tv-toggle.on) [tabindex]:focus-visible {
   color: var(--gold);
 }
 
-.gm-ctrl-btn.stop {
+.gm-ctrl-btn.danger {
   background: #ff4d4d22;
   border-color: #ff6b6b;
   color: #ff6b6b;
-}
-
-.gm-ctrl-btn.skip {
-  color: var(--muted);
 }
 
 .gm-simple-row {
