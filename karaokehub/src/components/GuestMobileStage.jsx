@@ -72,6 +72,7 @@ export default function GuestMobileStage({
   onStop,
   onSkip,
   onRemoveReservation,
+  onReorder,
 }) {
   const [navTab, setNavTab] = useState('search');
   const [resultsMode, setResultsMode] = useState('suggestions');
