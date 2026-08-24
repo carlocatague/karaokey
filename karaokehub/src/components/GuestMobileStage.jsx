@@ -12,7 +12,6 @@ import {
   Plus,
   Play,
   Pause,
-  Square,
   SkipForward,
   Trash2,
   GripVertical,
