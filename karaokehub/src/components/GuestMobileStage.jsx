@@ -259,31 +259,48 @@ export default function GuestMobileStage({
           </>
         )}
 
-        {navTab === 'queue' && (
+                {navTab === 'queue' && (
           <div className="gm-list-section">
             <h3>Up next ({upcoming.length})</h3>
             {upcoming.length === 0 ? (
               <p className="muted small">The queue is empty.</p>
             ) : (
-                            upcoming.map((item) => (
-                <div key={item.id} className="gm-simple-row">
-                  <img src={item.thumbnail_url} alt="" />
-                  <div>
-                    <strong>{item.title}</strong>
-                    <span>{item.singer_name}</span>
+              <div ref={(el) => { listRef.current = el; }}>
+                {upcoming.map((item) => (
+                  <div
+                    key={item.id}
+                    data-qrow={item.id}
+                    className={`gm-simple-row ${overId === item.id ? 'gm-row-over' : ''} ${dragId === item.id ? 'gm-row-dragging' : ''}`}
+                  >
+                    {item.status === 'waiting' && (
+                      <span
+                        className="gm-drag-handle"
+                        onPointerDown={(e) => handleDragStart(e, item.id)}
+                        onPointerMove={handleDragMove}
+                        onPointerUp={handleDragEnd}
+                        onPointerCancel={handleDragEnd}
+                      >
+                        <GripVertical size={16} />
+                      </span>
+                    )}
+                    <img src={item.thumbnail_url} alt="" />
+                    <div>
+                      <strong>{item.title}</strong>
+                      <span>{item.singer_name}</span>
+                    </div>
+                    {item.status === 'playing' && <span className="badge-live">Live</span>}
+                    {item.session_id === sessionId && item.status !== 'playing' && (
+                      <button
+                        className="gm-delete-btn"
+                        onClick={() => onRemoveReservation(item)}
+                        title="Remove your reservation"
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    )}
                   </div>
-                  {item.status === 'playing' && <span className="badge-live">Live</span>}
-                  {item.session_id === sessionId && item.status !== 'playing' && (
-                    <button
-                      className="gm-delete-btn"
-                      onClick={() => onRemoveReservation(item)}
-                      title="Remove your reservation"
-                    >
-                      <Trash2 size={15} />
-                    </button>
-                  )}
-                </div>
-              ))
+                ))}
+              </div>
             )}
           </div>
         )}
