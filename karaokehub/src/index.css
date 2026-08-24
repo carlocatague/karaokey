@@ -1923,12 +1923,11 @@ body:has(.tv-toggle.on) [tabindex]:focus-visible {
 .gm-brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--accent);
   font-family: var(--font-display);
   font-weight: 800;
-  letter-spacing: 0.04em;
-  font-size: 1rem;
+  letter-spacing: 0.01em;
+  font-size: 1.1rem;
+  color: var(--text);
 }
 
 .gm-topbar-right {
