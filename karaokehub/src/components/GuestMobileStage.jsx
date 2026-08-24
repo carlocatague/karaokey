@@ -15,6 +15,7 @@ import {
   Square,
   SkipForward,
   Trash2,
+  GripVertical,
 } from 'lucide-react';
 import { parseSongTitle } from '../lib/utils';
 import { toggleFavorite, isFavorited, getFavorites } from '../lib/favorites';
