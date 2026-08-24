@@ -2374,3 +2374,23 @@ body:has(.tv-toggle.on) [tabindex]:focus-visible {
 .gm-delete-btn:hover {
   color: #ff6b6b;
 }
+
+/* ---------- Guest mobile: touch drag-to-reorder ---------- */
+.gm-drag-handle {
+  color: var(--muted);
+  touch-action: none;
+  cursor: grab;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  margin-left: -4px;
+}
+
+.gm-row-dragging {
+  opacity: 0.5;
+}
+
+.gm-row-over {
+  border-color: var(--gold);
+}
