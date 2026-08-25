@@ -186,7 +186,7 @@ export default function Home() {
         </p>
 
         <div className="start-cards" onKeyDown={handleCardsKeyDown}>
-          <form className="start-card" ref={hostCardRef} tabIndex={0} onSubmit={handleCreate}>
+            <form className="start-card start-card-host" ref={hostCardRef} tabIndex={0} onSubmit={handleCreate}>
             <div className="start-card-head">
               <Play size={16} className="start-card-icon" />
               <h3>Host a Room</h3>
@@ -196,7 +196,7 @@ export default function Home() {
             {hostError && <div className="form-error">{hostError}</div>}
 
             <input
-              placeholder="Your Name (DJ)"
+              placeholder="Room Name (Host)"
               value={hostName}
               onChange={(e) => setHostName(e.target.value)}
               required
@@ -208,10 +208,10 @@ export default function Home() {
             </button>
           </form>
 
-          <form className="start-card" ref={joinCardRef} tabIndex={0} onSubmit={handleJoin}>
+            <form className="start-card start-card-join" ref={joinCardRef} tabIndex={0} onSubmit={handleJoin}>
             <div className="start-card-head">
               <Users size={16} className="start-card-icon" />
-              <h3>Join the Stage</h3>
+              <h3>Join the Room</h3>
             </div>
             <p className="start-card-desc">Enter a room code to start queuing songs.</p>
 
