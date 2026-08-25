@@ -462,6 +462,12 @@ button, input, select {
   .start-cards {
     grid-template-columns: 1fr;
   }
+  .start-card-join {
+    order: 1;
+  }
+  .start-card-host {
+    order: 2;
+  }
 }
 
 /* ---- QR scanner overlay ---- */
