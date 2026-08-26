@@ -374,6 +374,10 @@ export default function GuestMobileStage({
         )}
       </div>
 
+            {toast && (
+        <div className="gm-toast">✓ Added "{toast}" to the queue</div>
+      )}
+
       <div className="gm-bottom-nav">
         <button className={navTab === 'search' ? 'active' : ''} onClick={() => setNavTab('search')}>
           <Search size={18} />
