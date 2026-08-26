@@ -101,6 +101,19 @@ export default function GuestMobileStage({
   const [overId, setOverId] = useState(null);
   const listRef = useState(() => ({ current: null }))[0];
 
+  const [toast, setToast] = useState(null);
+  const toastTimerRef = useRef(null);
+
+  useEffect(() => () => clearTimeout(toastTimerRef.current), []);
+
+  function handleAddWithToast(song) {
+    onAdd(song);
+    const { title } = parseSongTitle(song.title);
+    setToast(title || song.title);
+    clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = setTimeout(() => setToast(null), 2500);
+  }
+
   function handleDragStart(e, itemId) {
     setDragId(itemId);
     e.currentTarget.setPointerCapture?.(e.pointerId);
