@@ -2395,3 +2395,29 @@ body:has(.tv-toggle.on) [tabindex]:focus-visible {
 .gm-row-over {
   border-color: var(--gold);
 }
+
+/* ---------- Guest mobile: song-added toast ---------- */
+.gm-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 70px;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #241a02;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 10px 18px;
+  border-radius: 999px;
+  box-shadow: 0 10px 30px -8px #ffcc4d66;
+  z-index: 20;
+  max-width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  animation: gmToastIn 0.25s ease;
+}
+
+@keyframes gmToastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
