@@ -243,7 +243,7 @@ export default function GuestMobileStage({
                     <GuestResultRow
                       key={r.videoId}
                       song={r}
-                      onAdd={onAdd}
+                      onAdd={handleAddWithToast}
                       playedRecently={recentlyPlayedIds.has(r.videoId)}
                     />
                   ))
@@ -256,7 +256,7 @@ export default function GuestMobileStage({
                         thumbnail: song.thumbnail_url,
                         channel: '',
                       }}
-                      onAdd={onAdd}
+                      onAdd={handleAddWithToast}
                       playedRecently={recentlyPlayedIds.has(song.video_id)}
                     />
                   ))}
@@ -320,7 +320,7 @@ export default function GuestMobileStage({
               <p className="muted small">Tap the heart on a song to save it here.</p>
             ) : (
               favorites.map((song) => (
-                <GuestResultRow key={song.videoId} song={song} onAdd={onAdd} />
+                <GuestResultRow key={song.videoId} song={song} onAdd={handleAddWithToast} />
               ))
             )}
           </div>
