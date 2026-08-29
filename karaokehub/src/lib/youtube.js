@@ -1,5 +1,17 @@
+import { supabase } from './supabaseClient';
+
 const API_KEY = import.meta.env.VITE_YOUTUBE_API_KEY;
 const SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
+
+// Cross-session, in-memory only -- resets on page reload, but means retyping
+// or backspacing back to a term you already searched this visit costs
+// nothing at all, not even a database round-trip.
+const memoryCache = new Map();
+const MEMORY_TTL_MS = 10 * 60 * 1000; // 10 minutes
+
+// How long a shared result in Supabase is considered fresh before a search
+// is allowed to hit the YouTube API again for that same term.
+const SHARED_CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 // YouTube's API returns titles with HTML entities encoded (e.g. &#39; for
 // an apostrophe). Decoding via a detached textarea is a safe, standard trick
