@@ -29,12 +29,34 @@ function decodeHtmlEntities(str) {
  * versions with on-screen lyrics rather than the original music video.
  */
 export async function searchKaraoke(query) {
+  if (!query?.trim()) return [];
+  const cacheKey = query.trim().toLowerCase();
+
+  // 1. In-memory cache (this browser tab, this page load) -- instant, free.
+  const cached = memoryCache.get(cacheKey);
+  if (cached && Date.now() - cached.savedAt < MEMORY_TTL_MS) {
+    return cached.results;
+  }
+
+  // 2. Shared cache in Supabase -- free for the API, works across every
+  // room and every visitor searching the same term.
+  const { data: sharedRow } = await supabase
+    .from('search_cache')
+    .select('results, created_at')
+    .eq('query', cacheKey)
+    .maybeSingle();
+
+  if (sharedRow && Date.now() - new Date(sharedRow.created_at).getTime() < SHARED_CACHE_TTL_MS) {
+    memoryCache.set(cacheKey, { results: sharedRow.results, savedAt: Date.now() });
+    return sharedRow.results;
+  }
+
+  // 3. Nothing usable cached -- fall through to a real YouTube API call.
   if (!API_KEY) {
     throw new Error(
       'Missing VITE_YOUTUBE_API_KEY. Add it to your .env file (see README).'
     );
   }
-  if (!query?.trim()) return [];
 
   const params = new URLSearchParams({
     part: 'snippet',
@@ -52,11 +74,19 @@ export async function searchKaraoke(query) {
   }
   const data = await res.json();
 
-  return (data.items ?? []).map((item) => ({
+  const results = (data.items ?? []).map((item) => ({
     videoId: item.id.videoId,
     title: decodeHtmlEntities(item.snippet.title),
     channel: decodeHtmlEntities(item.snippet.channelTitle),
     thumbnail: item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url,
     url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
   }));
+
+  memoryCache.set(cacheKey, { results, savedAt: Date.now() });
+  supabase
+    .from('search_cache')
+    .upsert({ query: cacheKey, results, created_at: new Date().toISOString() })
+    .then(() => {});
+
+  return results;
 }
