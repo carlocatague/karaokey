@@ -24,8 +24,8 @@ html, body, #root {
 body {
   margin: 0;
   background:
-    radial-gradient(ellipse 900px 500px at 15% -10%, #4a1e6a55, transparent),
-    radial-gradient(ellipse 700px 400px at 100% 0%, #ff2f9222, transparent),
+    radial-gradient(ellipse 900px 500px at 15% -10%, #ffcc4d14, transparent),
+    radial-gradient(ellipse 700px 400px at 100% 0%, #ffcc4d0d, transparent),
     var(--bg);
   color: var(--text);
   font-family: var(--font-body);
